@@ -15,4 +15,12 @@ let io = serverSocket(server);
 io.on("connection", newConnection);
 function newConnection(newSocket) {
   console.log(newSocket.id);
+  //le cose che succedono in relazione al client
+  //quando il new socket mi manda il messaggio mouse devo fare questa cosa
+  newSocket.on("mouse", mouseMessage);
+  function mouseMessage(dataReceived) {
+    console.log(dataReceived);
+    //manda quest'informazione a tutti i client
+    newSocket.broadcast.emit("mouseBroadcast", dataReceived);
+  }
 }
