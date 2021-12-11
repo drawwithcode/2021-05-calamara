@@ -21,10 +21,10 @@ function newConnection() {
 function newBroadcast(data) {
   console.log(data);
   //eseguo ogni volta che ricevo info da un altro client
-  circle(data.x, data.y, 7);
   fill("white");
   stroke("white");
-  cursor("aereodue", 50, 50);
+  strokeWeight(10);
+  line(data.x, data.y, data.x2, data.y2);
 }
 
 function setup() {
@@ -34,16 +34,28 @@ function setup() {
 }
 
 function draw() {
-  circle(mouseX, mouseY, 10);
-  fill("lightGrey");
-  stroke("lightGrey");
+  push();
+  noStroke();
+
+  fill("pink");
+  textSize(30);
+  textAlign(CENTER);
+  text("write your message in the sky", width / 2, height / 9 - 40);
+  pop();
 }
 
-function mouseMoved() {
+function mouseDragged() {
+  push();
+  stroke("lightGrey");
+  strokeWeight(8);
+  line(pmouseX, pmouseY, mouseX, mouseY);
+  pop();
   //creare oggetto da mandare
   let message = {
     x: mouseX,
     y: mouseY,
+    x2: pmouseX,
+    y2: pmouseY,
   };
   //lo mando al server
   clientSocket.emit("mouse", message);
